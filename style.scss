@@ -1,0 +1,116 @@
+$bg-color: white;
+$page-color: rgb(207, 207, 207);
+$main-fonts: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: $main-fonts;
+}
+
+body {
+  background: $bg-color;
+}
+
+@keyframes paralax-scroll {
+  from {background-position: 0 50px;}
+  25% {background-position: 25vw 10px;}
+  30% {background-position: 30vw 60px;}
+  40% {background-position: 40vw 20px;}
+  50% {background-position: 50vw 70px;}
+  to {background-position: 100vw;}
+}
+
+header {
+  width: 100%;
+  height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url("https://matej-brozek.cz/images/me.jpg?7fed11becc0fa672f8efe6490a708bfc");//url("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic.vecteezy.com%2Fsystem%2Fresources%2Fpreviews%2F002%2F243%2F021%2Flarge_2x%2Fseamless-diagonal-grunge-texture-vector.jpg&f=1&nofb=1&ipt=40ca74190c2a45637a87c17a9ea5429a9df3efc38ce5a47275e5f8a1fbc4bb29&ipo=images");
+  background-size: cover;
+  background-attachment: fixed;
+  animation: paralax-scroll 5s infinite cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  .heading-content {
+    position: relative;
+    bottom: 30px;
+    mix-blend-mode: difference;
+    color: white;
+    ::selection{
+      background: white;
+      color: black;
+    }
+  }
+
+  .title {
+    
+    font-size: 120px;
+    font-weight: 900;
+  }
+
+  .whoami {
+    font-size: 30px;
+    font-weight: 500;
+  }
+}
+
+.content {
+  background: $page-color;
+  align-self: center;
+  max-width: 100vw;
+}
+
+.pill-container {
+  display: flex;
+}
+
+.pill {
+  background: rgb(231, 231, 231);
+  display: inline-block;
+  height: 1em;
+  min-width: 1.5em;
+  padding: 0.4em;
+  margin-inline: 5px;
+  box-sizing: content-box;
+  border-radius: 1em;
+  transition: box-shadow .1s;
+  font-weight: 800;
+  padding-inline: 10px;
+  line-height: 1em;
+  text-align: center;
+}
+
+.link-pill {
+  &:hover {
+    box-shadow: 3px 3px 2px rgb(177, 177, 177);
+  }
+  &:link, &:visited{
+    text-decoration: none;
+    color: inherit;
+  }
+  div, img {
+    display: inline;
+    height: 100%;
+  }
+  div {
+    position: relative;
+    top: -15%;
+  }
+}
+
+.project-card {
+  background: white;
+  padding: 20px;
+  margin: 30px;
+  border-radius: 5px;
+
+  .title {
+    font-size: 300px;
+  }
+
+  p {
+    margin-block: 20px;
+  }
+}
