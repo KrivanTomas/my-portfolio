@@ -45,7 +45,7 @@ header {
   }
 
   .title {
-    
+
     font-size: 120px;
     font-weight: 900;
   }
@@ -106,11 +106,67 @@ header {
   margin: 30px;
   border-radius: 5px;
 
-  .title {
-    font-size: 300px;
+  .project-name {
+    font-size: 30px;
+    margin-bottom: 10px;
   }
 
   p {
     margin-block: 20px;
   }
+}
+
+@mixin calculate-sliding-shadows($frac-c, $frac-i, $num) {
+  $out: 0;
+  $frac-value: calc(100vw / $frac-c);
+  @for $i from 0 through $num - 1 {
+    $alpha: 1 / $num * (($frac-i + $i) % $num);
+    @if (($frac-i + $i) % $num) == $num - 1 {$alpha: 0;}
+    $out: $out + $frac-value * (($frac-i + $i) % $num) 
+    + " 0px rgba(0,0,0," + $alpha + ")";
+    @if $i != $num - 1 {
+      $out: $out + ", ";
+    }
+  }
+  $out : $out;
+  text-shadow: #{$out};
+}
+
+// @mixin set-sliding-shadows($fractions){
+//   $step: 100 / $fractions;
+
+//   $out: "";
+//   @for $i from 0 through $fractions {
+// }
+
+@keyframes sliding-title {
+  0% {@include calculate-sliding-shadows(9, 0, 10);}
+  10% {@include calculate-sliding-shadows(9, 1, 10);}
+  20% {@include calculate-sliding-shadows(9, 2, 10);}
+  30% {@include calculate-sliding-shadows(9, 3, 10);}
+  40% {@include calculate-sliding-shadows(9, 4, 10);}
+  50% {@include calculate-sliding-shadows(9, 5, 10);}
+  60% {@include calculate-sliding-shadows(9, 6, 10);}
+  70% {@include calculate-sliding-shadows(9, 7, 10);}
+  80% {@include calculate-sliding-shadows(9, 8, 10);}
+  90% {@include calculate-sliding-shadows(9, 9, 10);}
+  100% {@include calculate-sliding-shadows(9, 10, 10);}
+  //0% {text-shadow: 0vw 0px #00000000, 100vw 0px #00000000, 75vw 0px #000000bd, 50vw 0px #0000007e, 25vw 0px #0000003f;}
+  // 25% {text-shadow: 25vw 0px #0000003f, 0vw 0px #00000000, 100vw 0px #00000000, 75vw 0px #000000bd, 50vw 0px #0000007e;}
+  // 50% {text-shadow: 50vw 0px #0000007e, 25vw 0px #0000003f, 0vw 0px #00000000, 100vw 0px #00000000, 75vw 0px #000000bd;}
+  // 75% {text-shadow: 75vw 0px #000000bd, 50vw 0px #0000007e, 25vw 0px #0000003f, 0vw 0px #00000000, 100vw 0px #00000000;}
+  // 100% {text-shadow: 100vw 0px #00000000, 75vw 0px #000000bd, 50vw 0px #0000007e, 25vw 0px #0000003f, 0vw 0px #00000000;}
+}
+
+.section-title {
+  display: block;
+  box-sizing: border-box;
+  width: 100vw;
+  font-size: 40px;
+  padding-left: 40px;
+  padding-block: 10px;
+  margin-block: 10px;
+  border: 2px solid black;
+  line-height: 100%;
+  animation: sliding-title 10s linear infinite;
 }
