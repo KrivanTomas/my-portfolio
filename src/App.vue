@@ -2,6 +2,7 @@
   import { ref } from 'vue'
   import type { Ref } from 'vue'
   import ProjectCard from './components/ProjectCard.vue'
+  import WebGLTest from './components/WebGLTest.vue';
 
   let id = 0
   let pill_id = 0
@@ -59,6 +60,7 @@
 </script>
 
 <template>
+  <WebGLTest />
   <main>
       <ProjectCard v-for="project in projects" :key="project.id" :project_info="project"/>
   </main>
