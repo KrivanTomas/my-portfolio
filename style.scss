@@ -1,5 +1,4 @@
-$bg-color: white;
-$page-color: rgb(207, 207, 207);
+$bg-color: rgb(255, 255, 255);
 $main-fonts: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 
 * {
@@ -28,10 +27,10 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: url("https://matej-brozek.cz/images/me.jpg?7fed11becc0fa672f8efe6490a708bfc");//url("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic.vecteezy.com%2Fsystem%2Fresources%2Fpreviews%2F002%2F243%2F021%2Flarge_2x%2Fseamless-diagonal-grunge-texture-vector.jpg&f=1&nofb=1&ipt=40ca74190c2a45637a87c17a9ea5429a9df3efc38ce5a47275e5f8a1fbc4bb29&ipo=images");
+  //background: url("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic.vecteezy.com%2Fsystem%2Fresources%2Fpreviews%2F002%2F243%2F021%2Flarge_2x%2Fseamless-diagonal-grunge-texture-vector.jpg&f=1&nofb=1&ipt=40ca74190c2a45637a87c17a9ea5429a9df3efc38ce5a47275e5f8a1fbc4bb29&ipo=images");
   background-size: cover;
   background-attachment: fixed;
-  animation: paralax-scroll 5s infinite cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  //animation: paralax-scroll 5s infinite cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
   .heading-content {
     position: relative;
@@ -56,14 +55,9 @@ header {
   }
 }
 
-.content {
-  background: $page-color;
-  align-self: center;
-  max-width: 100vw;
-}
-
 .pill-container {
   display: flex;
+  padding: 10px;
 }
 
 .pill {
@@ -101,7 +95,8 @@ header {
 }
 
 .project-card {
-  background: white;
+  max-width: 1000px;
+  background: rgb(211, 211, 211);
   padding: 20px;
   margin: 30px;
   border-radius: 5px;
@@ -111,9 +106,18 @@ header {
     margin-bottom: 10px;
   }
 
-  p {
-    margin-block: 20px;
+  .project-description {
+    margin: 20px;
   }
+
+  // &::before {
+  //   margin-block: 20px;
+  //   display: block;
+  //   width: 100%;
+  //   height: 1px;
+  //   background: rgb(117, 117, 117);
+  //   content: '';
+  // }
 }
 
 @mixin calculate-sliding-shadows($frac-c, $frac-i, $num) {
@@ -139,24 +143,24 @@ header {
 //   @for $i from 0 through $fractions {
 // }
 
-@keyframes sliding-title {
-  0% {@include calculate-sliding-shadows(9, 0, 10);}
-  10% {@include calculate-sliding-shadows(9, 1, 10);}
-  20% {@include calculate-sliding-shadows(9, 2, 10);}
-  30% {@include calculate-sliding-shadows(9, 3, 10);}
-  40% {@include calculate-sliding-shadows(9, 4, 10);}
-  50% {@include calculate-sliding-shadows(9, 5, 10);}
-  60% {@include calculate-sliding-shadows(9, 6, 10);}
-  70% {@include calculate-sliding-shadows(9, 7, 10);}
-  80% {@include calculate-sliding-shadows(9, 8, 10);}
-  90% {@include calculate-sliding-shadows(9, 9, 10);}
-  100% {@include calculate-sliding-shadows(9, 10, 10);}
-  //0% {text-shadow: 0vw 0px #00000000, 100vw 0px #00000000, 75vw 0px #000000bd, 50vw 0px #0000007e, 25vw 0px #0000003f;}
-  // 25% {text-shadow: 25vw 0px #0000003f, 0vw 0px #00000000, 100vw 0px #00000000, 75vw 0px #000000bd, 50vw 0px #0000007e;}
-  // 50% {text-shadow: 50vw 0px #0000007e, 25vw 0px #0000003f, 0vw 0px #00000000, 100vw 0px #00000000, 75vw 0px #000000bd;}
-  // 75% {text-shadow: 75vw 0px #000000bd, 50vw 0px #0000007e, 25vw 0px #0000003f, 0vw 0px #00000000, 100vw 0px #00000000;}
-  // 100% {text-shadow: 100vw 0px #00000000, 75vw 0px #000000bd, 50vw 0px #0000007e, 25vw 0px #0000003f, 0vw 0px #00000000;}
-}
+// @keyframes sliding-title {
+//   0% {@include calculate-sliding-shadows(9, 0, 10);}
+//   10% {@include calculate-sliding-shadows(9, 1, 10);}
+//   20% {@include calculate-sliding-shadows(9, 2, 10);}
+//   30% {@include calculate-sliding-shadows(9, 3, 10);}
+//   40% {@include calculate-sliding-shadows(9, 4, 10);}
+//   50% {@include calculate-sliding-shadows(9, 5, 10);}
+//   60% {@include calculate-sliding-shadows(9, 6, 10);}
+//   70% {@include calculate-sliding-shadows(9, 7, 10);}
+//   80% {@include calculate-sliding-shadows(9, 8, 10);}
+//   90% {@include calculate-sliding-shadows(9, 9, 10);}
+//   100% {@include calculate-sliding-shadows(9, 10, 10);}
+//   //0% {text-shadow: 0vw 0px #00000000, 100vw 0px #00000000, 75vw 0px #000000bd, 50vw 0px #0000007e, 25vw 0px #0000003f;}
+//   // 25% {text-shadow: 25vw 0px #0000003f, 0vw 0px #00000000, 100vw 0px #00000000, 75vw 0px #000000bd, 50vw 0px #0000007e;}
+//   // 50% {text-shadow: 50vw 0px #0000007e, 25vw 0px #0000003f, 0vw 0px #00000000, 100vw 0px #00000000, 75vw 0px #000000bd;}
+//   // 75% {text-shadow: 75vw 0px #000000bd, 50vw 0px #0000007e, 25vw 0px #0000003f, 0vw 0px #00000000, 100vw 0px #00000000;}
+//   // 100% {text-shadow: 100vw 0px #00000000, 75vw 0px #000000bd, 50vw 0px #0000007e, 25vw 0px #0000003f, 0vw 0px #00000000;}
+// }
 
 .section-title {
   display: block;
@@ -165,8 +169,7 @@ header {
   font-size: 40px;
   padding-left: 40px;
   padding-block: 10px;
-  margin-block: 10px;
-  border: 2px solid black;
+  margin-block: 20px;
   line-height: 100%;
-  animation: sliding-title 10s linear infinite;
+  //animation: sliding-title 10s linear infinite;
 }
