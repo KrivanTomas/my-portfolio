@@ -1,18 +1,18 @@
 <script setup lang="ts">
 
-import './../webgl.ts'
-
+//import './../webgl.ts'
+import './../wb.ts'
 
 </script>
 
 <template>
-    <div class="hero-canvas">
-        <canvas id="hero-canvas"></canvas>
+    <div class="glcanvas">
+        <canvas id="glcanvas"></canvas>
     </div>
 </template>
 
 <style scoped>
-.hero-canvas {
+.glcanvas {
     width: 100%;
     height: 100vh;
     canvas {
