@@ -31,13 +31,13 @@ function setupWebGL(evt: Event) {
   if (!(testGL = getRenderingContext())) return;
   gl = testGL;
   let source = 
-  `#version 300 es 
+  `#version 300 es
 
-  layout (location = 0) in vec2 pos;
+  layout(location = 0) in vec4 aVertexPosition;
 
   void main() {
-    gl_Position = vec4(pos, 0.0, 1.0);
-    gl_PointSize = 300.0;
+    gl_Position = aVertexPosition;
+    //gl_PointSize = 30.0;
   }`;
   const vertexShader: WebGLShader | null = gl.createShader(gl.VERTEX_SHADER);
   if(!vertexShader) return null;
@@ -92,6 +92,22 @@ function setupWebGL(evt: Event) {
 
     gl.uniform2f(resolutionUniformLocation, canvas.width, canvas.height);
 
+    const vertexAttribLoacation = gl.getAttribLocation(program, 'aVertexPosition');
+    const numComponents = 2;
+    const type = gl.FLOAT;
+    const normalize = false;
+    const stride = 0;
+    const offset = 0;
+    gl.vertexAttribPointer(
+      vertexAttribLoacation,
+      numComponents,
+      type,
+      normalize,
+      stride,
+      offset);
+  gl.enableVertexAttribArray(
+    vertexAttribLoacation);
+
 (function frame() {
     gl.uniform1f(timeUniformLocation, ((window.performance || Date).now() - startTime) / 1000);
   
@@ -107,13 +123,21 @@ function initializeAttributes() {
   gl.enableVertexAttribArray(0);
   buffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-  const quadVerticies = [
-    0.0, 0.5,
-    -0.5, -0.5,
-    0.5, -0.5
-  ];
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(quadVerticies), gl.STATIC_DRAW);
-  gl.vertexAttribPointer(0, 1, gl.FLOAT, false, 0, 0);
+  const positions = [
+    1.0,  1.0,
+   -1.0,  1.0,
+    1.0, -1.0,
+   -1.0, -1.0,
+ ];
+
+ // Now pass the list of positions into WebGL to build the
+ // shape. We do this by creating a Float32Array from the
+ // JavaScript array, then use it to fill the current buffer.
+
+ gl.bufferData(gl.ARRAY_BUFFER,
+               new Float32Array(positions),
+               gl.STATIC_DRAW);
+               
 }
 
 function cleanup() {
