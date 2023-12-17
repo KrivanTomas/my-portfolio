@@ -11,12 +11,12 @@ defineProps<{
     thegood?: string,
     thebad?: string,
     pictures: string[],
-    techs: {id: number, text: string}[]
-    links: {id: number, text: string, icon: string, link: string}[]
+    techs: { id: number, text: string }[]
+    links: { id: number, text: string, icon: string, link: string }[]
   }
 }>()
 const getImageUrl = (path: string) => {
- return new URL(`../assets/${path}`, import.meta.url).href;
+  return new URL(`../assets/${path}`, import.meta.url).href;
 };
 </script>
 
@@ -24,54 +24,59 @@ const getImageUrl = (path: string) => {
   <div class="project-card">
     <div class="splitter">
       <div>
-      <h3 class="project-name">{{ project_info.name }}</h3>
-      <small class="project-description">{{ project_info.description }}</small>
-      <div class="pill-container">
+        <h3 class="project-name">{{ project_info.name }}</h3>
+        <small class="project-description">{{ project_info.description }}</small>
+        <div class="pill-container">
           <div class="pill" v-for="tech in project_info.techs" :key="tech.id">{{ tech.text }}</div>
-      </div>
-      <p class="project-story">{{ project_info.story }}</p>
+        </div>
+        <p class="project-story">{{ project_info.story }}</p>
+        <div class="pill-container">
+          <a class="pill link-pill" v-for="link in project_info.links" target="_blank" :href="link.link" :key="link.id">
+            <GithubIcon v-if="link.icon == 'GithubIcon'" />
+            <WebIcon v-else-if="link.icon == 'WebIcon'" />
+            <div>{{ link.text }}</div>
+          </a>
+        </div>
       </div>
       <div class="image-wrapper">
         <img class="project-picture" v-for="picture in project_info.pictures" :src="getImageUrl(picture)">
       </div>
     </div>
-    <div class="pill-container">
-      <a class="pill link-pill" v-for="link in project_info.links" target="_blank" :href="link.link" :key="link.id">
-        <GithubIcon v-if="link.icon == 'GithubIcon'" />
-        <WebIcon v-else-if="link.icon == 'WebIcon'"/>
-        <div>{{ link.text }}</div>
-      </a>
-    </div>
-    </div>
+  </div>
 </template>
 
 <style scoped>
-
 .project-card {
   background: var(--ku-background-soft);
   margin-bottom: 40px;
   padding: 20px;
   border-radius: 5px;
 }
+
 .project-name {
   font-size: 30px;
   margin-bottom: 0px;
 }
+
 .project-description {
   display: block;
   margin-bottom: 5px;
 }
+
 .project-story {
   margin: 20px;
 }
+
 .pill-container {
   display: flex;
   flex-wrap: wrap;
 }
 
-.splitter{
+.splitter {
   width: 100%;
   display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
 }
 
 .pill {
@@ -95,31 +100,41 @@ const getImageUrl = (path: string) => {
 .link-pill {
   padding-inline: 7px;
   transition: color .2s, border .2s, background .2s;
+
   &:hover {
     color: var(--ku-accent-2) !important;
     background-color: var(--color-background-mute);
     border-color: var(--ku-accent);
     /* box-shadow: 3px 3px 2px var(--color-border-hover); */
   }
-  &:link, &:visited{
+
+  &:link,
+  &:visited {
     text-decoration: none;
     color: unset;
   }
-  div, svg {
+
+  div,
+  svg {
     display: inline;
     height: 100%;
   }
+
   svg {
     margin-right: 5px;
   }
+
   div {
     position: relative;
     top: -15%;
   }
 }
-.image-wrapper{
+
+.image-wrapper {
   display: flex;
   width: 100%;
+  max-height: 60vh;
+  max-width: 40vw;
 }
 
 .project-picture {
@@ -129,15 +144,19 @@ const getImageUrl = (path: string) => {
   width: 100%;
   border-radius: 20px;
 }
+
 @media screen and (max-width: 600px) {
-  .splitter{
+  .splitter {
     flex-direction: column;
   }
+
   .image-wrapper {
     flex-direction: column;
+    max-height: none;
+    max-width: none;
   }
+
   .project-picture {
     margin-block: 10px;
   }
-}
-</style>
+}</style>

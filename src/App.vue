@@ -25,14 +25,14 @@
   <main class="main">
       <section class="section about-me-wrapper">
         <h2 class="section-title">About me</h2>
-        <p class="about-me-description">
+        <p class="section-content">
             I love learing new things, be it web development, 
             gamemaking, art and design or music. 
         </p>
       </section>
       <section class="section experience-wrapper">
         <h2 class="section-title">Experience</h2>
-        <p>Javascript, TypeScript, php, C#, C++, GDScript, Python, GLSL</p>
+        <p class="section-content">Javascript, TypeScript, php, C#, C++, GDScript, Python, GLSL</p>
       </section>
       <section class="section project-card-wrapper">
         <h2 class="section-title">My projects</h2>
@@ -40,8 +40,10 @@
       </section>
       <section class="section whats-next-wrapper">
         <h2 class="section-title">What’s next</h2>
-        <h3>Godot</h3>
-        <h3>C++</h3>
+        <div class="section-content">
+          <h3>Godot</h3>
+          <h3>C++</h3>
+        </div>
       </section>
   </main>
 
@@ -103,6 +105,8 @@
 }
 .main {
   width: 100%;
+  max-width: 1500px;
+  margin: auto;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -114,7 +118,7 @@
 }
 
 .section-title {
-  font-size: 60px;
+  font-size: 50px;
 }
 
 
@@ -137,6 +141,12 @@
 
 .footer-label {
   font-weight: 600;
+}
+
+.section-content {
+  background: var(--ku-background-soft);
+  border-radius: 5px;
+  padding: 10px;
 }
 
 @media screen and (max-width: 600px) {
