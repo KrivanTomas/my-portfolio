@@ -31,7 +31,9 @@ const getImageUrl = (path: string) => {
       </div>
       <p class="project-story">{{ project_info.story }}</p>
       </div>
-      <img class="project-picture" v-for="picture in project_info.pictures" :src="getImageUrl(picture)">
+      <div class="image-wrapper">
+        <img class="project-picture" v-for="picture in project_info.pictures" :src="getImageUrl(picture)">
+      </div>
     </div>
     <div class="pill-container">
       <a class="pill link-pill" v-for="link in project_info.links" target="_blank" :href="link.link" :key="link.id">
@@ -65,25 +67,17 @@ const getImageUrl = (path: string) => {
 .pill-container {
   display: flex;
   flex-wrap: wrap;
-  padding: 10px;
 }
 
 .splitter{
+  width: 100%;
   display: flex;
-}
-
-.project-picture {
-  object-fit: cover;
-  height: 100%;
-  width: 50px;
-  border-radius: 20px;
 }
 
 .pill {
   background: var(--ku--background-mute);
   display: inline-block;
   height: 1.2em;
-  min-width: 5px;
   padding: 5px;
   margin: 4px;
   box-sizing: content-box;
@@ -95,6 +89,7 @@ const getImageUrl = (path: string) => {
   line-height: 1.2em;
   text-align: center;
   text-wrap: nowrap;
+  word-wrap: none;
 }
 
 .link-pill {
@@ -120,6 +115,29 @@ const getImageUrl = (path: string) => {
   div {
     position: relative;
     top: -15%;
+  }
+}
+.image-wrapper{
+  display: flex;
+  width: 100%;
+}
+
+.project-picture {
+  object-fit: cover;
+  /* height: 100%;
+  width: 50px; */
+  width: 100%;
+  border-radius: 20px;
+}
+@media screen and (max-width: 600px) {
+  .splitter{
+    flex-direction: column;
+  }
+  .image-wrapper {
+    flex-direction: column;
+  }
+  .project-picture {
+    margin-block: 10px;
   }
 }
 </style>

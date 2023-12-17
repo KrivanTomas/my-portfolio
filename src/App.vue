@@ -21,7 +21,7 @@
 </script>
 
 <template>
-  <Header />
+  <Header class="header" />
   <main class="main">
       <section class="section about-me-wrapper">
         <h2 class="section-title">About me</h2>
@@ -38,9 +38,11 @@
         <h2 class="section-title">My projects</h2>
         <ProjectCard v-for="project in projects" :key="project.id" :project_info="project"/>
       </section>
-      <h2 class="section-title">What’s next</h2>
-    <h3>Godot</h3>
-    <h3>C++</h3>
+      <section class="section whats-next-wrapper">
+        <h2 class="section-title">What’s next</h2>
+        <h3>Godot</h3>
+        <h3>C++</h3>
+      </section>
   </main>
 
     <footer class="footer">
@@ -94,6 +96,11 @@
 </template>
 
 <style scoped>
+
+.header {
+  font-size: 80px;
+  line-height: 150px;
+}
 .main {
   width: 100%;
   display: flex;
@@ -130,6 +137,23 @@
 
 .footer-label {
   font-weight: 600;
+}
+
+@media screen and (max-width: 600px) {
+  .header{
+    font-size: 50px;
+    line-height: 100px;
+    text-align: center;
+  }
+  .main {
+    padding: 5px;
+  }
+  .footer-blocks{
+    flex-direction: column;
+  }
+  .section-title{
+    font-size: 30px;
+  }
 }
 /* tr>td:first-child{
   text-align: end;

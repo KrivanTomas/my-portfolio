@@ -42,7 +42,7 @@
     "id": 1,
     "name": "Baka parser",
     "description": "A CLI parser for the Bakalari web timetable.",
-    "story": "Loremu ipusume dolaru qivemu idkemu.",
+    "story": "",
     "pictures": [  
         "images/baka-parser1.png"
     ],

@@ -26,9 +26,9 @@
     mix-blend-mode: difference;
 }
 .title{
-    font-size: 150px;
+    font-size: 2em;
 }
 .subtitle {
-    font-size: 50px;
+    font-size: .5em;
 }
 </style>
