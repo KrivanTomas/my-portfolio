@@ -11,11 +11,11 @@ import './../wb.ts'
 
 <style scoped>
 #glcanvas {
-    z-index: -1;
     position: absolute;
-    top: 0px;
-    bottom: 0px;
+    z-index: -1;
+    width: 100%;
     left: 0px;
-    right: 0px;
+    top:0px;
+    height: 100%;
 }
 </style>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+
 import GithubIcon from './icons/IconGithub.vue'
 import WebIcon from './icons/IconWeb.vue'
 defineProps<{
@@ -7,26 +8,37 @@ defineProps<{
     name: string,
     description: string,
     story: string,
+    thegood?: string,
+    thebad?: string,
+    pictures: string[],
     techs: {id: number, text: string}[]
     links: {id: number, text: string, icon: string, link: string}[]
   }
 }>()
+const getImageUrl = (path: string) => {
+ return new URL(`../assets/${path}`, import.meta.url).href;
+};
 </script>
 
 <template>
   <div class="project-card">
-    <h3 class="project-name">{{ project_info.name }}</h3>
-    <small class="project-description">{{ project_info.description }}</small>
-    <div class="pill-container">
-        <div class="pill" v-for="tech in project_info.techs" :key="tech.id">{{ tech.text }}</div>
+    <div class="splitter">
+      <div>
+      <h3 class="project-name">{{ project_info.name }}</h3>
+      <small class="project-description">{{ project_info.description }}</small>
+      <div class="pill-container">
+          <div class="pill" v-for="tech in project_info.techs" :key="tech.id">{{ tech.text }}</div>
+      </div>
+      <p class="project-story">{{ project_info.story }}</p>
+      </div>
+      <img class="project-picture" v-for="picture in project_info.pictures" :src="getImageUrl(picture)">
     </div>
-    <p class="project-story">{{ project_info.story }}</p>
     <div class="pill-container">
-        <a class="pill link-pill" v-for="link in project_info.links" target="_blank" :href="link.link" :key="link.id">
-            <GithubIcon v-if="link.icon == 'GithubIcon'" />
-            <WebIcon v-else-if="link.icon == 'WebIcon'"/>
-            <div>{{ link.text }}</div>
-        </a>
+      <a class="pill link-pill" v-for="link in project_info.links" target="_blank" :href="link.link" :key="link.id">
+        <GithubIcon v-if="link.icon == 'GithubIcon'" />
+        <WebIcon v-else-if="link.icon == 'WebIcon'"/>
+        <div>{{ link.text }}</div>
+      </a>
     </div>
     </div>
 </template>
@@ -34,9 +46,9 @@ defineProps<{
 <style scoped>
 
 .project-card {
-  background: var(--color-background-mute);
+  background: var(--ku-background-soft);
+  margin-bottom: 40px;
   padding: 20px;
-  margin: 50px;
   border-radius: 5px;
 }
 .project-name {
@@ -52,16 +64,28 @@ defineProps<{
 }
 .pill-container {
   display: flex;
+  flex-wrap: wrap;
   padding: 10px;
 }
 
+.splitter{
+  display: flex;
+}
+
+.project-picture {
+  object-fit: cover;
+  height: 100%;
+  width: 50px;
+  border-radius: 20px;
+}
+
 .pill {
-  background: var(--color-background);
+  background: var(--ku--background-mute);
   display: inline-block;
   height: 1.2em;
   min-width: 5px;
   padding: 5px;
-  margin-inline: 4px;
+  margin: 4px;
   box-sizing: content-box;
   border: solid 2px var(--color-border);
   border-radius: 8px;
@@ -70,18 +94,21 @@ defineProps<{
   padding-inline: 10px;
   line-height: 1.2em;
   text-align: center;
+  text-wrap: nowrap;
 }
 
 .link-pill {
   padding-inline: 7px;
+  transition: color .2s, border .2s, background .2s;
   &:hover {
+    color: var(--ku-accent-2) !important;
     background-color: var(--color-background-mute);
-    border-color: rgb(107, 19, 107);
+    border-color: var(--ku-accent);
     /* box-shadow: 3px 3px 2px var(--color-border-hover); */
   }
   &:link, &:visited{
     text-decoration: none;
-    color: inherit;
+    color: unset;
   }
   div, svg {
     display: inline;

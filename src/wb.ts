@@ -4,9 +4,13 @@
 window.addEventListener("load", onLoad, false);
 
 let canvas;
+let canvasWrapper;
+let gl;
+let programInfo;
 const startTime = (window.performance || Date).now();
 function onLoad() {
     canvas = document.querySelector('#glcanvas');
+    canvasWrapper = document.querySelector('#header');
     main();
 }
 
@@ -14,16 +18,18 @@ function onLoad() {
 window.addEventListener("resize", onWindowResize, false);
 
 function onWindowResize() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  //gl.viewport(0, 0, canvas.width, canvas.height);
+  canvas.width = canvasWrapper.clientWidth;
+  canvas.height = canvasWrapper.clientHeight;
+  //canvas.width = window.innerWidth;
+  //canvas.height = window.innerHeight;
+  gl.viewport(0, 0, canvas.width, canvas.height);
 }
 
 //
 // Start here
 //
 function main() {
-  const gl = canvas.getContext('webgl2');
+  gl = canvas.getContext('webgl2');
   // If we don't have a GL context, give up now
 
   if (!gl) {
@@ -98,7 +104,10 @@ function main() {
         
         //outColor = vec4(uv, 0., 1.0);
         
-        outColor = vec4(final * vec3(1., 0., 1.) ,1.0);
+        final = clamp(final, 0., 1.);
+        vec3 finalColor = final * vec3(0.525, 0.365, 1.);
+        //vec3 finalColor = final * vec3(1.);
+        outColor = vec4(finalColor ,1.0);
     }
   `;  
 
@@ -109,7 +118,7 @@ function main() {
   // Collect all the info needed to use the shader program.
   // Look up which attribute our shader program is using
   // for aVertexPosition and look up uniform locations.
-  const programInfo = {
+  programInfo = {
     program: shaderProgram,
     attribLocations: {
       vertexPosition: gl.getAttribLocation(shaderProgram, 'aVertexPosition'),
@@ -124,8 +133,10 @@ function main() {
   // Here's where we call the routine that builds all the
   // objects we'll be drawing.
   const buffers = initBuffers(gl);
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  canvas.width = canvasWrapper.clientWidth;
+  canvas.height = canvasWrapper.clientHeight;
+  //canvas.width = window.innerWidth;
+  //canvas.height = window.innerHeight;
   gl.viewport(0,0, canvas.width, canvas.height);
   // Draw the scene
 

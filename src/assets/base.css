@@ -19,6 +19,13 @@
   --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
   --vt-c-text-dark-1: var(--vt-c-white);
   --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+
+  --ku-background: #191825;
+  --ku-background-soft: #222133;  
+  --ku-background-mute: #3e3b5b;  
+  --ku-accent: #865DFF;
+  --ku-accent-2: #FFA3FD;
+  --ku-accent-2-d: #9c1e98;
 }
 
 /* semantic color variables for this project */
@@ -61,10 +68,10 @@
 body {
   min-height: 100vh;
   color: var(--color-text);
-  background: var(--color-background);
-  transition:
+  background: var(--ku-background);
+  /* transition:
     color 0.5s,
-    background-color 0.5s;
+    background-color 0.5s; */
   line-height: 1.6;
   font-family:
     Inter,

@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <header class="header">
+    <header class="header" id="header">
         <GLCanvas />
         <div class="title-wrapper">
             <h1 class="title">Hi, I’m Kuro!</h1>
@@ -14,9 +14,10 @@
 
 <style scoped>
 .header {
-    width: 100vw;
+    position: relative;
+    width: 100%;
     height: 100vh;
-    color: rgb(255, 50, 255);
+    color: var(--ku-accent);
     display: flex;
     justify-content: center;
     align-items: center;
