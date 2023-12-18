@@ -111,6 +111,7 @@
   align-items: center;
   flex-direction: column;
   padding: 30px;
+  padding-inline: 150px;
 }
 
 .section {
