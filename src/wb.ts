@@ -3,27 +3,43 @@
 
 window.addEventListener("load", onLoad, false);
 
+
 let canvas;
 let canvasWrapper;
 let gl;
 let programInfo;
+let mousePos = [-200,-200];
+let mouseParticle = [-200,-200];
 const startTime = (window.performance || Date).now();
 function onLoad() {
-    canvas = document.querySelector('#glcanvas');
-    canvasWrapper = document.querySelector('#header');
-    main();
+  canvas = document.querySelector('#glcanvas');
+  canvasWrapper = document.querySelector('#header');
+  main();
+  window.addEventListener("mousemove", onMouseMove);
+
+  function onMouseMove(e: MouseEvent){
+    //console.log(`x: ${e.clientX},y: ${e.clientX}`);
+    mousePos = [e.pageX, e.pageY];
+  }
+  window.addEventListener("touchmove", onTouchMove);
+
+  function onTouchMove(e: TouchEvent){
+    //console.log(`x: ${e.clientX},y: ${e.clientX}`);
+    mousePos = [e.touches[0].pageX, e.touches[0].pageY];
+  }
+  window.addEventListener("resize", onWindowResize, false);
+
+  function onWindowResize() {
+    canvas.width = canvasWrapper.clientWidth;
+    canvas.height = canvasWrapper.clientHeight;
+    //canvas.width = window.innerWidth;d
+    //canvas.height = window.innerHeight;
+    gl.viewport(0, 0, canvas.width, canvas.height);
+  }
 }
 
 
-window.addEventListener("resize", onWindowResize, false);
 
-function onWindowResize() {
-  canvas.width = canvasWrapper.clientWidth;
-  canvas.height = canvasWrapper.clientHeight;
-  //canvas.width = window.innerWidth;
-  //canvas.height = window.innerHeight;
-  gl.viewport(0, 0, canvas.width, canvas.height);
-}
 
 //
 // Start here
@@ -65,49 +81,55 @@ function main() {
     out vec4 outColor;
 
     void main() {
-        vec2 uv = gl_FragCoord.xy/uResolution.y;
+      vec2 uv = gl_FragCoord.xy/(uResolution.y);
+		//uv = floor(uv * 100.) / 100.;
         //uv -= .5;
         
-        vec2 o = vec2(0.,0.);
-        o.y  += tan(sin(uTime * .1)*2.) * .1 + sin(uTime * 3.) * 0.01  + .5;    
-        o.x  += sin(uTime * .5) * .2 + .5;
-        vec2 o2 = uMousePosition -0.5;
+        //vec2 o[5];
+        float p_final = 0.;
+        for(float i = 0.; i < 5.; i++){
+          vec2 p = vec2(i / 5. - .5 / 5.,0.);
+          p.y += (sin(uTime * .2 + i * 312.54)) * 1.2 + sin(uTime * 3.) * 0.01;
+          p.x += sin(uTime * .5+ i * 312.54) * .1 + .5;
+
+          float p_diff = length(p - uv) - .1;
+          p_diff = 1. - p_diff;
+          p_diff = clamp(p_diff, 0., 1.);
+
+          p_final += pow(p_diff, 10.);
+        }
+                
+        vec2 om = uMousePosition / uResolution.y;
+        om.y = 1. - om.y;
         
-        vec2 o3 = vec2(0.,0.);
-        o3.y  += tanh(uTime * .4) * .1 + sin(uTime * 3.) * 0.01  + .5;    
-        o3.x  += sin(uTime * .6) * .2 + .5;
         
-        float diff = length(o - uv) - .1;
+        //float diff1 = length(o1 - uv) - .1;
+        //diff1 = 1. - diff1;
+        //diff1 = clamp(diff1, 0., 1.);
         
-        //diff = abs(diff);
-        diff = smoothstep(0.01, 0.4, diff);
-        //diff = .1 / diff;
-        //diff = step(0.9, diff);
+        float diffm = length(om - uv) - .1;
+        diffm = 1. - diffm;
+        diffm = clamp(diffm, 0., 1.);
         
-        float diff2 = length(o2 - uv) - .1;
+        float topdiff = 1. - uv.y + .02;        
+        topdiff = 1. - topdiff;
+        topdiff = clamp(topdiff, 0., 1.);
+        float bottomdiff = uv.y + .02;
+        bottomdiff = 1. - bottomdiff;        
+        bottomdiff = clamp(bottomdiff, 0., 1.);
         
-        //diff2 = abs(diff2);
-        diff = smoothstep(0.01, 0.4, diff);
-        //diff2 = .1 / diff2;
-        //diff2 = step(0.9, diff2);
         
-        float diff3 = length(o3 - uv) - .1;
-        
-    
-        diff3 = smoothstep(0.01, 0.4, diff3);
-        
-        float final = diff * diff2 * diff3;
-        
-        final = step(0.1, final);
-        
-        final = .1 / final;
-        
-        //outColor = vec4(uv, 0., 1.0);
-        
-        final = clamp(final, 0., 1.);
+        float final = pow(bottomdiff, 10.) + pow(topdiff, 10.) + pow(diffm, 10.) + p_final;
+       	final = clamp(final,0.,1.);
+       	final = step(1., final);
+       	if (final > 1. || final < 0.) {
+       		final += 100.;
+        }
+        //final = 0.01 / final;
+        //final = clamp(final, 0., 1.);
         vec3 finalColor = final * vec3(0.525, 0.365, 1.);
-        //vec3 finalColor = final * vec3(1.);
-        outColor = vec4(finalColor ,1.0);
+        //finalColor = vec3(o3, .0);
+        outColor = vec4(finalColor,1.0);
     }
   `;  
 
@@ -198,38 +220,6 @@ function drawScene(gl, programInfo, buffers) {
 
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-  // Create a perspective matrix, a special matrix that is
-  // used to simulate the distortion of perspective in a camera.
-  // Our field of view is 45 degrees, with a width/height
-  // ratio that matches the display size of the canvas
-  // and we only want to see objects between 0.1 units
-  // and 100 units away from the camera.
-
-//   const fieldOfView = 45 * Math.PI / 180;   // in radians
-//   const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
-//   const zNear = 0.1;
-//   const zFar = 100.0;
-//   const projectionMatrix = mat4.create();
-
-  // note: glmatrix.js always has the first argument
-  // as the destination to receive the result.
-  //mat4.perspective(projectionMatrix,
-                //    fieldOfView,
-                //    aspect,
-                //    zNear,
-                //    zFar);
-
-  // Set the drawing position to the "identity" point, which is
-  // the center of the scene.
-  //const modelViewMatrix = mat4.create();
-
-  // Now move the drawing position a bit to where we want to
-  // start drawing the square.
-
-//   mat4.translate(modelViewMatrix,     // destination matrix
-//                  modelViewMatrix,     // matrix to translate
-//                  [-0.0, 0.0, -6]);  // amount to translate
-
   // Tell WebGL how to pull out the positions from the position
   // buffer into the vertexPosition attribute.
   {
@@ -255,19 +245,11 @@ function drawScene(gl, programInfo, buffers) {
   gl.useProgram(programInfo.program);
 
   // Set the shader uniforms
-
-//   gl.uniformMatrix4fv(
-//       programInfo.uniformLocations.projectionMatrix,
-//       false,
-//       projectionMatrix);
-//   gl.uniformMatrix4fv(
-//       programInfo.uniformLocations.modelViewMatrix,
-//       false,
-//       modelViewMatrix);
-  
   gl.uniform2f(programInfo.uniformLocations.resolution, canvas.width, canvas.height);  
   gl.uniform1f(programInfo.uniformLocations.time, ((window.performance || Date).now() - startTime) / 1000);
-  gl.uniform2f(programInfo.uniformLocations.mousePosition, 0,0);
+  mouseParticle = [mouseParticle[0] + (mousePos[0] - mouseParticle[0]) / 10,mouseParticle[1] + (mousePos[1] - mouseParticle[1]) / 10];
+  
+  gl.uniform2f(programInfo.uniformLocations.mousePosition, mouseParticle[0], mouseParticle[1]);
   {
     const offset = 0;
     const vertexCount = 4;
