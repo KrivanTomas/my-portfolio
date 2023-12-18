@@ -79,6 +79,21 @@ const getImageUrl = (path: string) => {
   justify-content: space-between;
 }
 
+.image-wrapper {
+  display: flex;
+  width: 100%;
+  max-height: 60vh;
+  max-width: 50%;
+}
+.project-picture {
+  object-fit: cover;
+  /* height: 100%;
+  width: 50px; */
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 10px;
+}
+
 .pill {
   background: var(--ku--background-mute);
   display: inline-block;
@@ -128,21 +143,6 @@ const getImageUrl = (path: string) => {
     position: relative;
     top: -15%;
   }
-}
-
-.image-wrapper {
-  display: flex;
-  width: 100%;
-  max-height: 60vh;
-  max-width: 40vw;
-}
-
-.project-picture {
-  object-fit: cover;
-  /* height: 100%;
-  width: 50px; */
-  width: 100%;
-  border-radius: 20px;
 }
 
 @media screen and (max-width: 600px) {

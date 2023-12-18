@@ -5,9 +5,7 @@
     "description": "A cardgame-oriented framework with demo card games.",
     "story": "This is the first proper game I made in Unity with my friend. \n      While it is not the perfect game, it helped me understand the workflow of a \n      small team as well as maintaining a clean codebase for colaboration.",
     "pictures": [
-      "images/card-engine1.png",
-      "images/card-engine2.png",
-      "images/card-engine3.png"
+      "images/card-engine2.png"
     ],
     "techs": [
       {
